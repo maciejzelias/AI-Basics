@@ -51,6 +51,12 @@ public class Main {
 
     }
 
+    public Double getCentroids(Vector<Point> points) {
+        Vector<Double> centroid = new Vector<>();
+        for (Point point : points) {
+        }
+    }
+
     public static Double countingDistance(Vector<Double> vector, Vector<Double> vector2) {
         double value = 0.0;
         if (vector.size() != vector2.size()) {

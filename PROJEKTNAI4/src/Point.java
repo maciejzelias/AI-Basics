@@ -20,4 +20,8 @@ public class Point {
     public String toString() {
         return values.toString();
     }
+
+    public Vector<Double> getValues() {
+        return values;
+    }
 }
