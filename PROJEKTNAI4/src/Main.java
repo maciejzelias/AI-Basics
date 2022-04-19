@@ -55,7 +55,7 @@ public class Main {
 
 
         for (Map.Entry<Integer, Vector<Point>> entry : Groups.entrySet()) {
-        //    System.out.println("[" + entry.getKey() + "]    " + entry.getValue());
+            //    System.out.println("[" + entry.getKey() + "]    " + entry.getValue());
             centroids.add(new Centroid(getCentroids(entry.getValue())));
         }
 
@@ -63,7 +63,7 @@ public class Main {
         while (changes >= 1) {
             changes = 0;
             for (Point point : allPoints) {
-                int newGroup = getNewGroup(point.getValues(), centroids);
+                int newGroup = getNewGroup(point.getValues(), centroids, point.getGroupNumber());
                 if (point.getGroupNumber() != newGroup) {
                     Groups.get(point.getGroupNumber()).remove(point);
                     Groups.get(newGroup).add(point);
@@ -74,7 +74,8 @@ public class Main {
             System.out.println("======================================================");
             Double suma = 0.0;
             for (Map.Entry<Integer, Vector<Point>> entry : Groups.entrySet()) {
-                centroids.get(entry.getKey() - 1).setValues(getCentroids(entry.getValue()));
+                if (entry.getValue().size() > 0)
+                    centroids.get(entry.getKey() - 1).setValues(getCentroids(entry.getValue()));
                 System.out.println("GRUPA " + entry.getKey() + " :" + Sum(entry.getValue(), centroids.get(entry.getKey() - 1)));
                 suma += Sum(entry.getValue(), centroids.get(entry.getKey() - 1));
             }
@@ -101,10 +102,10 @@ public class Main {
 
     public static Vector<Double> getCentroids(Vector<Point> points) {
         Vector<Double> centroid = new Vector<>();
-        double a = 0;
-        double b = 0;
-        double c = 0;
-        double d = 0;
+        double a = 0.0;
+        double b = 0.0;
+        double c = 0.0;
+        double d = 0.0;
         double size = Double.valueOf(points.size());
         for (Point point : points) {
             a += point.getValues().get(0);
@@ -120,7 +121,7 @@ public class Main {
         return centroid;
     }
 
-    public static int getNewGroup(Vector<Double> pointVector, Vector<Centroid> centroidVector) {
+    public static int getNewGroup(Vector<Double> pointVector, Vector<Centroid> centroidVector, int group) {
         int index = 0;
         double min = 10000;
         for (int i = 0; i < centroidVector.size(); i++) {
@@ -129,6 +130,9 @@ public class Main {
                 index = i;
             }
         }
+        if (min == countingDistance(pointVector, centroidVector.get(group - 1).getValues()))
+            return group;
+
         return index + 1;
     }
 
@@ -141,10 +145,6 @@ public class Main {
     }
 
     public static Double countingDistance(Vector<Double> vector, Vector<Double> vector2) {
-        double value = 0.0;
-        for (int i = 0; i < vector.size(); i++) {
-            value += Math.pow((vector.get(i) - vector2.get(i)), 2);
-        }
-        return Math.sqrt(value);
+        return Math.sqrt(countingDistanceSquare(vector, vector2));
     }
 }
