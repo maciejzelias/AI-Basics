@@ -1,4 +1,7 @@
 # NAI
+
+Artificial inteligence mini projects given by PJWSTK
+
 PROJEKTNAI1 - K-nn algorithm
 
 
