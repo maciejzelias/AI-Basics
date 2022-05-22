@@ -9,3 +9,6 @@ PROJEKTNAI2 - Perceptron training algorithm
 
 
 PROJEKTNAI4 - k-means algorithm
+
+
+PROJEKTNAI5 - Naive Bayes algorithm
